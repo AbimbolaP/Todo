@@ -7,11 +7,14 @@
 
   --primaryColor: #1b778b;
   --textColor: #121314;
-  --secondaryColor: #fb2a2a;
+  --secondaryColor: #f80000;
   --fontPrimary: 'Lato', sans-serif;
 
 }
-
+ body{
+    max-width: 960px;
+    margin: auto;
+ }
 .navigation__list {
 display: flex;
 align-items: center;
@@ -19,7 +22,7 @@ justify-content: space-between;
 padding: 30px 60px;
 font-family: var(--fontPrimary);
 color: var(--textColor);
-background-color: azure;
+border-bottom: 2px solid var(--primaryColor);
 }
 
 .navigation__list-items {
@@ -48,7 +51,8 @@ background-color: azure;
 
 .todo__section--todoItem {
     display: flex;
-    min-width: 300px;
+    min-width: 400px;
+
 }
 
 .todo__section--todoItem + .todo__section--todoItem {
@@ -68,6 +72,8 @@ margin-top: 20px
     font-family: var(--fontPrimary);
 }
 
+
+
 .todo__actions {
     padding: 5px 16px;
     border-radius: 8px;
@@ -75,6 +81,7 @@ margin-top: 20px
     outline: none;
     box-shadow: none;
     border: 1px solid transparent;
+    margin: 5px;
 }
 
 .edit__btn {
@@ -83,7 +90,7 @@ margin-top: 20px
 
 .delete__btn {
     background-color: var(--secondaryColor);
-    color: black;
+    color: whitesmoke;
 }
 
 .form {

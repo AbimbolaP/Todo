@@ -1,48 +1,74 @@
-
-let form;
-let todoListWrapper;
-let todoInputField;
-
-
-//This for adding todos
-function showTodoItem(todo) {
-    let li = document.createElement('li');
-    li.innerHTML = `      <div>
-    <input class="todo__checkbox" type="checkbox" />
-    <span class="todo__text"> ${todo} </span>
-    <div class="todo__actions--wrapper">
-      <button id="edit_btn" class="todo__actions edit__btn">
-        edit
-      </button>
-      <button id="delete_btn" class="todo__actions delete__btn">
-        delete
-      </button>
-    </div>
-  </div>`
-
-  li.classList.add("todo__section--todoItem")
-    
-
-  todoListWrapper.appendChild(li);
+function deleteTodo(eventObject) {
+  const buttonClicked = eventObject.target;
+  const todoItem = buttonClicked.parentNode.parentNode;
+  todoItem.remove();
+}
+ 
+function addListenersToDeleteButtons() {
+  // select all the buttons with .delete__btn class.
+  //remember querySelectorAll return an array (NodeList)
+  // only the last element in the array is new. every other element has been existing before;
+  const buttonCollection = document.querySelectorAll(".delete__btn");
+  // select the last element in the array;
+  const lastButton = buttonCollection[buttonCollection.length - 1];
+  lastButton.addEventListener("click", deleteTodo);
+}
+function editTodo(eventObject){
+  const buttonClicked = eventObject.target;
+  const todoItem = buttonClicked.parentNode;
+  const span = todoItem.previousElementSibling;
+  const input = document.getElementById("todo__input");
+  const save = document.getElementById("add");
+  input.value = span.textContent;
+  save.textContent = "Save"
 }
 
-//This is to submit and show todos and also clear input field
-function todoFormSubmit(event) {
-  event.preventDefault();
+function addListenersToEditButtons() {
+  const buttonCollection = document.querySelectorAll(".edit__btn");
+  // select the last element in the array;
+  const lastButton = buttonCollection[buttonCollection.length - 1];
+  lastButton.addEventListener("click", editTodo);
 
-  const todoValue = todoInputField.value;
-  todoInputField.value = " "
-
-  showTodoItem(todoValue);
 }
 
-//This is to set all events rolling
-function setup() {
-  form = document.querySelector("#form");
-  todoListWrapper = document.querySelector("#todo__list");
-  todoInputField = document.querySelector("#todo__input");
+function showTodoOnTheScreen(todo) {
+  const listOfTodo = document.querySelector("#todo__list");
+  const li = document.createElement("li");
+  li.classList.add("todo__section--todoItem");
 
-  form.addEventListener("submit", todoFormSubmit);
+  li.innerHTML = `
+  <input class="todo__checkbox" type="checkbox" />
+  <span class="todo__text"> ${todo} </span>
+  <div class="todo__actions--wrapper">
+    <button id="edit_btn" class="todo__actions edit__btn">
+      edit
+    </button>
+    <button id="delete_btn" class="todo__actions delete__btn">
+      delete
+    </button>
+  </div>
+`;
+
+  listOfTodo.appendChild(li);
+  addListenersToDeleteButtons();
+  addListenersToEditButtons();
 }
 
-setup();
+function todoFormSumbitHandler(eventObject ) {
+  eventObject.preventDefault();
+  const inputField = document.querySelector("#todo__input");
+  const todoValue = inputField.value;
+  showTodoOnTheScreen(todoValue);
+  inputField.value = ""
+}
+
+function clearForm() {
+const inputField = document.querySelector("#todo__input");
+inputField.value = "";
+}
+
+const todoForm = document.getElementById("form");
+todoForm.addEventListener("submit", todoFormSumbitHandler);
+
+const clearButton = document.querySelector("#Clear");
+clearButton.addEventListener("click", clearForm)
